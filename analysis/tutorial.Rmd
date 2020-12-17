@@ -47,7 +47,8 @@ result_table[3,2] <- sd(rf_result[, 3])
 colnames(result_table) <- c("mean", "sd")
 rownames(result_table) <- c("k = 2", "k = 5", "k = 10")
 result_table
-saveRDS(result_table, "/Users/carrie/Desktop/stat302/projects/project2/pipeline/output/results")
+write.csv(rf_result, "../output/results/simulation.csv")
+saveRDS(result_table, "/Users/carrie/Desktop/stat302/projects/project2/pipeline/output/results/summary.rds")
 ```
 
 When k = 5, it has the smallest mean. As k increases, the standard deviation becomes bigger and bigger. I think it's because when k is greater, the data is split into more trees causing larger standard deviations across trees.
