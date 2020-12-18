@@ -27,16 +27,22 @@ source("/Users/carrie/Desktop/stat302/projects/project2/pipeline/code/my_rf_cv.R
 ```{r}
 iter <- c(2, 5, 10)
 rf_result <- data.frame(matrix(ncol = 3, nrow = 30))
+rf_boxplot <- data.frame(matrix(ncol = 2, nrow = 90))
 for (i in 1:3) {
   k <- iter[i]
   for (j in 1:30) {
     ans <- my_rf_cv(k)
     rf_result[j,i] <- ans
+    rf_boxplot[(i-1)*30+j, 1] <- ans
+    rf_boxplot[(i-1)*30+j, 2] <- k
   }
 }
 colnames(rf_result) <- c("k = 2", "k = 5", "k = 10")
-graph <- boxplot(rf_result, xlab = "k", ylab = "CV estimated MSE")
-png("/Users/carrie/Desktop/stat302/projects/project2/pipeline/output/figures/graph.png")
+colnames(rf_boxplot) <- c("CV", "k")
+ggplot(rf_boxplot, aes(x = k, y = CV, group = k)) +
+  geom_boxplot() +
+  labs(title = "Simulations of k = 2, 5, 10")
+ggsave("../output/figures/boxplot.png")
 result_table <- data.frame(matrix(ncol = 2, nrow = 3))
 result_table[1,1] <- mean(rf_result[, 1])
 result_table[2,1] <- mean(rf_result[, 2])
